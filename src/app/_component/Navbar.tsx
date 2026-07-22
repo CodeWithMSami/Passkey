@@ -15,7 +15,7 @@ const Navbar = () => {
   }
   return (
     <>
-      <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 border-[6px] rounded-2xl border-primary items-center justify-between bg-linear-to-r from-gray-300 via-white to-gray-100'>
+      <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 z-20 border-[6px] rounded-2xl border-primary items-center justify-between bg-linear-to-r from-gray-300 via-white to-gray-100'>
         <div>
           <Image src={Passkey} alt='Passkey' width={40} height={40} />
         </div>
@@ -41,7 +41,7 @@ const Navbar = () => {
         </div>
       </nav>
       <div
-        className={`overflow-hidden transition-all duration-500 ease-in-out
+        className={`overflow-hidden transition-all min-w-full py-2 duration-500 ease-in-out fixed top-16 bg-linear-to-r from-gray-300 via-white to-gray-100 z-10
                     ${menu ? "max-h-64 opacity-100" : "max-h-0 opacity-0"}
                   `}
       >
@@ -53,7 +53,10 @@ const Navbar = () => {
             <Link className={`opacity-45 hover:opacity-100 ${pathname == '/contact' && 'opacity-90'}`} href={'/contact'}>Contact</Link>
           </li>
           <li className='block'>
-            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/features' && 'opacity-90'}`} href={'features'}>Features</Link>
+            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/features' && 'opacity-90'}`} href={'/features'}>Features</Link>
+          </li>
+          <li className='block'>
+            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/signup' && 'opacity-90'}`} href={'/signup'}>Features</Link>
           </li>
         </ul>
       </div>
