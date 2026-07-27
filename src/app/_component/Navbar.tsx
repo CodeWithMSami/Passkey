@@ -1,10 +1,11 @@
 'use client';
+
 import Passkey from '@/app/_assets/Passkey.jpg';
 import { Menu, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Navbar = () => {
   const [menu, setMenu] = useState<Boolean>(false);
@@ -13,6 +14,11 @@ const Navbar = () => {
   const showMenu = () => {
     setMenu(!menu);
   }
+
+  useEffect(() => {
+    setMenu(false);
+  }, [pathname])
+  
   return (
     <>
       <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 z-20 border-[6px] rounded-2xl border-primary items-center justify-between bg-linear-to-r from-gray-300 via-white to-gray-100 outline-2 outline-secondary/70'>
@@ -56,7 +62,7 @@ const Navbar = () => {
             <Link className={`opacity-45 hover:opacity-100 ${pathname == '/features' && 'opacity-90'}`} href={'/features'}>Features</Link>
           </li>
           <li className='block'>
-            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/signup' && 'opacity-90'}`} href={'/signup'}>Features</Link>
+            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/signup' && 'opacity-90'}`} href={'/signup'}>Sign up</Link>
           </li>
         </ul>
       </div>
