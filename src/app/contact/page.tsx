@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { SubmitButton } from "../_component/Submitbtn";
 
 export const metadata: Metadata = {
   title: "Contact Us — Passkey",
@@ -91,12 +92,7 @@ export default function ContactPage() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-xl bg-primary text-secondary font-semibold"
-              >
-                Send Message
-              </button>
+              <SubmitButton />
 
             </form>
 
