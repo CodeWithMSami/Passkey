@@ -5,7 +5,7 @@ import "./globals.css";
 import Navbar from "@/app/_component/Navbar";
 import Footer from "@/app/_component/Footer";
 import { Toaster } from "sonner";
-import AuthToast from "@/app/_component/AuthToast";
+import AuthToastWrapper from "./_component/AuthToastWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,7 +37,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <Navbar />
-        <AuthToast />
+        <AuthToastWrapper />
         <Toaster position="top-right" />
         {children}
         <Footer />
