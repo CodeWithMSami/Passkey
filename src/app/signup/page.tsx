@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SubmitButton } from "../_component/Submitbtn";
 import Link from "next/link";
+import { signup } from "../_actions/auth";
 
 export const metadata: Metadata = {
   title: "Create Account — Passkey",
@@ -46,7 +47,7 @@ export default function SignupPage() {
             </h2>
 
 
-            <form className="space-y-5">
+            <form className="space-y-5" action={signup}>
 
               <div>
                 <label className="block mb-2 text-primary/80 font-medium">
