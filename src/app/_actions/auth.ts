@@ -3,6 +3,7 @@
 import { createClient } from "@/app/_lib/supabase/server";
 import { redirect } from "next/navigation";
 
+// Signup functionality
 
 export async function signup(
   formData: FormData
@@ -86,6 +87,8 @@ export async function signup(
 
 }
 
+// Login functionality
+
 export async function login(
   formData: FormData
 ): Promise<void> {
@@ -135,6 +138,8 @@ export async function login(
 
 }
 
+// Forgot password functionality
+
 export async function forgotPassword(
   formData: FormData
 ): Promise<void> {
@@ -165,6 +170,8 @@ export async function forgotPassword(
     "/forgot-password?success=Password reset email sent"
   );
 }
+
+// Reset password functionality.
 
 export async function resetPassword(
   formData: FormData
@@ -204,5 +211,17 @@ export async function resetPassword(
   redirect(
     "/login?success=Password updated successfully"
   );
+
+}
+
+// Logout functionality
+
+export async function logout(): Promise<void> {
+
+  const supabase = await createClient();
+
+  await supabase.auth.signOut();
+
+  redirect("/login");
 
 }
