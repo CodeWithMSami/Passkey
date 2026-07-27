@@ -11,7 +11,7 @@ export function SubmitButton() {
       disabled={pending}
       className="w-full py-3 rounded-xl bg-primary text-secondary font-semibold"
     >
-      {pending ? 'Sending...' : 'Send Message'}
+      {pending ? 'Submiing...' : 'Submit'}
     </button>
   );
 }
