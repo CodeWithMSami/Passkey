@@ -214,14 +214,15 @@ export async function resetPassword(
 
 }
 
-// Logout functionality
-
-export async function logout(): Promise<void> {
+//  Tells if user is loged in
+export async function isLoggedIn(): Promise<boolean> {
 
   const supabase = await createClient();
 
-  await supabase.auth.signOut();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  redirect("/login");
+  return !!user;
 
 }
