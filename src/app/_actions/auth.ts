@@ -134,3 +134,75 @@ export async function login(
   redirect("/passwords?success=Logged in successfully!");
 
 }
+
+export async function forgotPassword(
+  formData: FormData
+): Promise<void> {
+
+  const email = formData.get("email") as string;
+
+  if (!email) {
+    redirect("/forgot-password?error=Email is required");
+  }
+
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.resetPasswordForEmail(
+    email,
+    {
+      redirectTo:
+        `${process.env.NEXT_PUBLIC_SITE_URL}/reset-password`,
+    }
+  );
+
+  if (error) {
+    redirect(
+      `/forgot-password?error=${encodeURIComponent(error.message)}`
+    );
+  }
+
+  redirect(
+    "/forgot-password?success=Password reset email sent"
+  );
+}
+
+export async function resetPassword(
+  formData: FormData
+): Promise<void> {
+
+  const password =
+    formData.get("password") as string;
+
+  const confirmPassword =
+    formData.get("confirmPassword") as string;
+
+  if (password !== confirmPassword) {
+
+    redirect(
+      "/reset-password?error=Passwords do not match"
+    );
+
+  }
+
+  const supabase = await createClient();
+
+  const { error } =
+    await supabase.auth.updateUser({
+
+      password,
+
+    });
+
+  if (error) {
+
+    redirect(
+      `/reset-password?error=${encodeURIComponent(error.message)}`
+    );
+
+  }
+
+  redirect(
+    "/login?success=Password updated successfully"
+  );
+
+}

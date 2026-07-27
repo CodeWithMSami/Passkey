@@ -87,8 +87,16 @@ export default function LoginPage() {
                   Remember me
                 </label>
 
-              </div>
 
+                <Link
+                  href="/forgot-password"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Forgot Password?
+                </Link>
+
+
+              </div>
 
               <SubmitButton />
 
