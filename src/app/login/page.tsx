@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SubmitButton } from "../_component/Submitbtn";
 import Link from "next/link";
+import { login } from "../_actions/auth";
 
 export const metadata: Metadata = {
   title: "Login — Passkey",
@@ -46,7 +47,7 @@ export default function LoginPage() {
             </h2>
 
 
-            <form className="space-y-5">
+            <form className="space-y-5" action={login}>
 
               <div>
                 <label className="block mb-2 text-primary/80 font-medium">
@@ -57,7 +58,7 @@ export default function LoginPage() {
                   name="email"
                   type="email"
                   placeholder="john@example.com"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 
@@ -71,7 +72,7 @@ export default function LoginPage() {
                   name="password"
                   type="password"
                   placeholder="Enter your password"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 
@@ -86,8 +87,16 @@ export default function LoginPage() {
                   Remember me
                 </label>
 
-              </div>
 
+                <Link
+                  href="/forgot-password"
+                  className="text-primary font-semibold hover:underline"
+                >
+                  Forgot Password?
+                </Link>
+
+
+              </div>
 
               <SubmitButton />
 

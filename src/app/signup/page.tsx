@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SubmitButton } from "../_component/Submitbtn";
 import Link from "next/link";
+import { signup } from "../_actions/auth";
 
 export const metadata: Metadata = {
   title: "Create Account — Passkey",
@@ -46,7 +47,7 @@ export default function SignupPage() {
             </h2>
 
 
-            <form className="space-y-5">
+            <form className="space-y-5" action={signup}>
 
               <div>
                 <label className="block mb-2 text-primary/80 font-medium">
@@ -57,7 +58,7 @@ export default function SignupPage() {
                   name="name"
                   type="text"
                   placeholder="John Doe"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 
@@ -71,7 +72,7 @@ export default function SignupPage() {
                   name="email"
                   type="email"
                   placeholder="john@example.com"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 
@@ -85,7 +86,7 @@ export default function SignupPage() {
                   name="password"
                   type="password"
                   placeholder="Create a strong password"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 
@@ -99,7 +100,7 @@ export default function SignupPage() {
                   name="confirmPassword"
                   type="password"
                   placeholder="Confirm your password"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/70 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
               </div>
 

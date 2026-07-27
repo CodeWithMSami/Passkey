@@ -6,10 +6,21 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { isLoggedIn } from '@/app/_actions/auth';
 
 const Navbar = () => {
   const [menu, setMenu] = useState<Boolean>(false);
   const pathname = usePathname();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  useEffect(() => {
+    async function checkAuth() {
+      const result = await isLoggedIn();
+      setLoggedIn(result);
+    }
+
+    checkAuth();
+  }, []);
 
   const showMenu = () => {
     setMenu(!menu);
@@ -18,7 +29,7 @@ const Navbar = () => {
   useEffect(() => {
     setMenu(false);
   }, [pathname])
-  
+
   return (
     <>
       <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 z-20 border-[6px] rounded-2xl border-primary items-center justify-between bg-linear-to-r from-gray-300 via-white to-gray-100 outline-2 outline-secondary/70'>
@@ -31,8 +42,8 @@ const Navbar = () => {
           <Link className={`opacity-45 hover:opacity-100 ${pathname == '/features' && 'opacity-90'}`} href={'/features'}>Features</Link>
         </div>
         <div className='flex flex-row gap-5 px-1'>
-          <Link href={'/login'} className='text-primary/70 px-3 py-0.5 outline-4 justify-center outline-primary opacity-70 rounded-md border content-center border-secondary bg-secondary/80 hover:bg-primary/70 hover:text-secondary transition-all duration-500'>Login</Link>
-          <Link href={'/signup'} className='text-secondary px-3 py-0.5 outline-4 justify-center outline-primary opacity-70 rounded-md border content-center border-secondary bg-primary/75 hover:bg-secondary/80 hover:text-primary/70 transition-all duration-500 xl:block md:block sm:hidden hidden'>Signup</Link>
+          <Link href={!loggedIn ? `/login` : `/passwords`} className='text-primary/70 px-3 py-0.5 outline-4 justify-center outline-primary opacity-70 rounded-md border content-center border-secondary bg-secondary/80 hover:bg-primary/70 hover:text-secondary transition-all duration-500'>{!loggedIn ? `Log in` : `Manage`}</Link>
+          <Link href={loggedIn ? `/logout` : `/signup`} className='text-secondary px-3 py-0.5 outline-4 justify-center outline-primary opacity-70 rounded-md border content-center border-secondary bg-primary/75 hover:bg-secondary/80 hover:text-primary/70 transition-all duration-500 xl:block md:block sm:hidden hidden'>{loggedIn ? `Log out` : `Sign up`}</Link>
           {menu ? (
             <X
               className='block xl:hidden md:hidden sm:block text-primary w-7.5 h-7.5 transition-all duration-700'
@@ -62,7 +73,7 @@ const Navbar = () => {
             <Link className={`opacity-45 hover:opacity-100 ${pathname == '/features' && 'opacity-90'}`} href={'/features'}>Features</Link>
           </li>
           <li className='block'>
-            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/signup' && 'opacity-90'}`} href={'/signup'}>Sign up</Link>
+            <Link className={`opacity-45 hover:opacity-100 ${pathname == '/signup' && 'opacity-90'}`} href={loggedIn ? `/logout` : `/signup`}>{loggedIn ? `Log out` : `Sign up`}</Link>
           </li>
         </ul>
       </div>
