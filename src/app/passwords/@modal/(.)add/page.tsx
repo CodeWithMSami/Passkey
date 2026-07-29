@@ -1,6 +1,6 @@
+import { addPassword } from "@/app/_actions/passwords";
 import CancelButton from "@/app/_component/CancelSubmit";
 import XSubmit from "@/app/_component/XSubmit";
-import Link from "next/link";
 
 
 export default function AddPasswordModal() {
@@ -46,15 +46,11 @@ export default function AddPasswordModal() {
 
         </div>
 
-
-
-
-
         {/* Scrollable Form */}
         <div className="overflow-y-auto">
 
 
-          <form className="p-6 md:p-8 space-y-5">
+          <form className="p-6 md:p-8 space-y-5" action={addPassword}>
 
 
             {/* Account */}
@@ -66,17 +62,15 @@ export default function AddPasswordModal() {
 
 
               <input
+                id="name"
+                name="name"
+                type="text"
+                required
                 placeholder="Google, GitHub, Netflix..."
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
             </div>
-
-
-
-
-
-
 
             {/* Login Details */}
             <div className="grid md:grid-cols-2 gap-4">
@@ -90,8 +84,13 @@ export default function AddPasswordModal() {
 
 
                 <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  autoComplete="username"
+                  required
                   placeholder="Email or username"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
 
               </div>
@@ -107,21 +106,17 @@ export default function AddPasswordModal() {
 
 
                 <input
+                  id="url"
+                  name="url"
+                  type="url"
                   placeholder="https://example.com"
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
 
               </div>
 
 
             </div>
-
-
-
-
-
-
-
 
             {/* Password */}
             <div>
@@ -136,33 +131,19 @@ export default function AddPasswordModal() {
 
 
                 <input
+                  id="password"
+                  name="password"
                   type="password"
+                  autoComplete="new-password"
+                  required
                   placeholder="Enter secure password"
-                  className="flex-1 border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  className="flex-1 border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
-
-
-
-                <button
-                  type="button"
-                  className="px-4 rounded-xl border border-primary text-primary hover:bg-primary hover:text-secondary transition"
-                >
-                  Generate
-                </button>
-
 
               </div>
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Category */}
             <div>
@@ -174,26 +155,28 @@ export default function AddPasswordModal() {
 
 
               <select
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                id="category"
+                name="category"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary/50"
               >
 
-                <option>
+                <option value='personal'>
                   Personal
                 </option>
 
-                <option>
+                <option value='work'>
                   Work
                 </option>
 
-                <option>
+                <option value='development'>
                   Development
                 </option>
 
-                <option>
+                <option value='finance'>
                   Finance
                 </option>
 
-                <option>
+                <option value='social'>
                   Social
                 </option>
 
@@ -201,14 +184,6 @@ export default function AddPasswordModal() {
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Tags */}
             <div>
@@ -220,8 +195,11 @@ export default function AddPasswordModal() {
 
 
               <input
+                id="tags"
+                name="tags"
+                type="text"
                 placeholder="Work, Email, Important"
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
 
@@ -231,14 +209,6 @@ export default function AddPasswordModal() {
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Notes */}
             <div>
@@ -250,20 +220,15 @@ export default function AddPasswordModal() {
 
 
               <textarea
+                id="notes"
+                name="notes"
                 rows={4}
                 placeholder="Add additional information..."
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 resize-none focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 resize-none focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
 
             </div>
-
-
-
-
-
-
-
 
 
             {/* Security */}
@@ -277,22 +242,11 @@ export default function AddPasswordModal() {
 
             </div>
 
-
-
-
-
-
-
-
-
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 pt-3">
 
 
               <CancelButton />
-
-
-
 
               <button
                 type="submit"

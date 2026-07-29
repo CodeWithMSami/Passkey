@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getPasswords } from "../_actions/passwords";
 
 export const metadata: Metadata = {
   title: "Password Vault — Passkey",
@@ -8,36 +9,11 @@ export const metadata: Metadata = {
 };
 
 
-const passwords = [
-  {
-    id: 1,
-    name: "Google Account",
-    username: "sami@gmail.com",
-    password: "Google@12345",
-    tags: ["Work", "Email"],
-    updated: "2 days ago",
-    category: "Personal",
-  },
-  {
-    id: 2,
-    name: "GitHub",
-    username: "codewithmsami",
-    password: "Github@98765",
-    tags: ["Development", "Code"],
-    updated: "5 days ago",
-    category: "Developer",
-  },
-  {
-    id: 3,
-    name: "Netflix",
-    username: "user@example.com",
-    password: "Netflix@123",
-    tags: ["Entertainment"],
-    updated: "1 week ago",
-    category: "Entertainment",
-  },
-];
+const passwords = await getPasswords();
 
+const pass_category = new Set(
+  passwords.map((item) => item.category)
+).size;
 
 export default function PasswordPage() {
   return (
@@ -86,7 +62,7 @@ export default function PasswordPage() {
             </p>
 
             <h2 className="text-3xl font-bold text-primary mt-2">
-              24
+              {passwords.length}
             </h2>
           </div>
 
@@ -98,7 +74,7 @@ export default function PasswordPage() {
             </p>
 
             <h2 className="text-3xl font-bold text-primary mt-2">
-              8
+              {pass_category}
             </h2>
           </div>
 
@@ -127,7 +103,7 @@ export default function PasswordPage() {
           <input
             type="text"
             placeholder="Search saved passwords..."
-            className="w-full border rounded-2xl px-5 py-4 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+            className="w-full border rounded-2xl px-5 py-4 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
           />
 
         </div>
@@ -224,7 +200,7 @@ export default function PasswordPage() {
               {/* Tags */}
               <div className="lg:col-span-2 flex flex-wrap gap-2">
 
-                {item.tags.map((tag) => (
+                {item.tags.map((tag: string) => (
 
                   <span
                     key={tag}
@@ -247,7 +223,7 @@ export default function PasswordPage() {
 
 
                 <Link
-                  href={`/passwords/${item.id}/edit`}
+                  href={`/passwords/${item.id}`}
                   className="px-4 py-2 rounded-xl border text-primary hover:bg-primary hover:text-secondary transition"
                 >
                   Edit
