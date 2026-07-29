@@ -1,4 +1,5 @@
 import { resetPassword } from "../_actions/auth";
+import { SubmitButton } from "../_component/Submitbtn";
 import { createClient } from "../_lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -42,11 +43,7 @@ export default async function ResetPasswordPage() {
                         className="w-full border rounded-xl px-4 py-3 text-primary"
                     />
 
-                    <button
-                        className="w-full py-3 rounded-xl bg-primary text-secondary"
-                    >
-                        Update Password
-                    </button>
+                    <SubmitButton />
 
                 </form>
 
