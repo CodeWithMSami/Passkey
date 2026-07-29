@@ -1,21 +1,6 @@
+import { getPassword, updatePassword } from "@/app/_actions/passwords";
 import CancelButton from "@/app/_component/CancelSubmit";
 import XSubmit from "@/app/_component/XSubmit";
-
-
-const passwords = [
-  {
-    id: "1",
-    name: "Google Account",
-    username: "sami@gmail.com",
-    password: "Google@12345",
-    website: "https://google.com",
-    category: "Personal",
-    tags: ["Work", "Email"],
-    notes: "Main Google account",
-  },
-];
-
-
 
 export default async function EditPasswordModal({
   params,
@@ -29,11 +14,7 @@ export default async function EditPasswordModal({
   const { id } = await params;
 
 
-  const password = passwords.find(
-    (item) => item.id === id
-  );
-
-
+  const password = await getPassword(id);
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-50 p-4">
@@ -78,18 +59,11 @@ export default async function EditPasswordModal({
 
         </div>
 
-
-
-
-
-
         {/* Scrollable Form */}
         <div className="overflow-y-auto">
 
 
-          <form className="p-6 md:p-8 space-y-5">
-
-
+          <form className="p-6 md:p-8 space-y-5" action={updatePassword}>
 
             {/* Account */}
             <div>
@@ -100,19 +74,16 @@ export default async function EditPasswordModal({
 
 
               <input
+                id="name"
+                name="name"
+                type="text"
+                required
                 defaultValue={password?.name}
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
 
             </div>
-
-
-
-
-
-
-
 
             {/* Login Details */}
             <div className="grid md:grid-cols-2 gap-4">
@@ -126,8 +97,12 @@ export default async function EditPasswordModal({
 
 
                 <input
+                  id="username"
+                  name="username"
+                  type="text"
+                  required
                   defaultValue={password?.username}
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
 
 
@@ -144,8 +119,11 @@ export default async function EditPasswordModal({
 
 
                 <input
-                  defaultValue={password?.website}
-                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  id="url"
+                  name="url"
+                  type="url"
+                  defaultValue={password?.url}
+                  className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
 
 
@@ -153,14 +131,6 @@ export default async function EditPasswordModal({
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Password */}
             <div>
@@ -175,33 +145,18 @@ export default async function EditPasswordModal({
 
 
                 <input
+                  id="password"
+                  name="password"
                   type="password"
-                  defaultValue={password?.password}
-                  className="flex-1 border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                  defaultValue={password?.encrypted_password}
+                  className="flex-1 border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
-
-
-
-                <button
-                  type="button"
-                  className="px-4 rounded-xl border border-primary text-primary hover:bg-primary hover:text-secondary transition"
-                >
-                  Generate
-                </button>
 
 
               </div>
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Category */}
             <div>
@@ -213,28 +168,22 @@ export default async function EditPasswordModal({
 
 
               <select
+                id="category"
+                name="category"
                 defaultValue={password?.category}
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 text-primary"
               >
 
-                <option>Personal</option>
-                <option>Work</option>
-                <option>Development</option>
-                <option>Finance</option>
-                <option>Social</option>
+                <option value='personal'>Personal</option>
+                <option value='work'>Work</option>
+                <option value='development'>Development</option>
+                <option value='finance'>Finance</option>
+                <option value='social'>Social</option>
 
               </select>
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Tags */}
             <div>
@@ -246,8 +195,11 @@ export default async function EditPasswordModal({
 
 
               <input
+                id="tags"
+                name="tags"
+                type="text"
                 defaultValue={password?.tags.join(", ")}
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
 
@@ -257,14 +209,6 @@ export default async function EditPasswordModal({
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Notes */}
             <div>
@@ -276,21 +220,15 @@ export default async function EditPasswordModal({
 
 
               <textarea
+                id="notes"
+                name="notes"
                 rows={4}
                 defaultValue={password?.notes}
-                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 resize-none focus:ring-2 focus:ring-primary/20"
+                className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 resize-none focus:ring-2 focus:ring-primary/20 text-primary"
               />
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Security */}
             <div className="rounded-2xl bg-primary/5 p-4">
@@ -302,14 +240,6 @@ export default async function EditPasswordModal({
 
 
             </div>
-
-
-
-
-
-
-
-
 
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 pt-3">
