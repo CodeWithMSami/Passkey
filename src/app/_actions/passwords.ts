@@ -246,6 +246,7 @@ export async function deletePassword(
 
 
   const supabase = await createClient();
+  console.log(id);
 
 
 
@@ -262,9 +263,9 @@ export async function deletePassword(
 
   if (error) {
 
-    redirect(
-      `/passwords?error=${encodeURIComponent(error.message)}`
-    );
+    // redirect(
+    //    `/passwords?error=${encodeURIComponent(error.message)}`
+    // );
 
   }
 
@@ -278,11 +279,6 @@ export async function deletePassword(
   );
 
 }
-
-
-
-
-
 
 // Get single password
 
