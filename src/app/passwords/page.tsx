@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { getPasswords } from "../_actions/passwords";
+import ShowPass from "../_component/ShowPass";
 
 export const metadata: Metadata = {
   title: "Password Vault — Passkey",
@@ -14,6 +15,8 @@ const passwords = await getPasswords();
 const pass_category = new Set(
   passwords.map((item) => item.category)
 ).size;
+
+export const revalidate = 5;
 
 export default function PasswordPage() {
   return (
@@ -116,7 +119,7 @@ export default function PasswordPage() {
         <div className="border rounded-3xl overflow-hidden">
 
 
-          <div className="hidden lg:grid grid-cols-12 px-6 py-4 bg-primary/5 text-primary/70 text-sm font-semibold">
+          <div className="hidden lg:grid grid-cols-14 px-6 py-4 bg-primary/5 text-primary/70 text-sm font-semibold">
 
             <div className="col-span-4">
               Account
@@ -128,6 +131,10 @@ export default function PasswordPage() {
 
             <div className="col-span-2">
               Tags
+            </div>
+
+            <div className="col-span-2">
+              Note
             </div>
 
             <div className="col-span-3 text-right">
@@ -142,7 +149,7 @@ export default function PasswordPage() {
 
             <div
               key={item.id}
-              className="grid lg:grid-cols-12 gap-5 items-center px-6 py-6 border-t hover:bg-primary/5 transition"
+              className="grid lg:grid-cols-14 gap-5 items-center px-6 py-6 border-t hover:bg-primary/5 transition"
             >
 
 
@@ -177,18 +184,7 @@ export default function PasswordPage() {
                 </p>
 
 
-                <div className="flex items-center gap-3 mt-2">
-
-                  <span className="font-medium text-primary">
-                    ••••••••••
-                  </span>
-
-
-                  <button className="text-sm text-primary font-semibold">
-                    Show
-                  </button>
-
-                </div>
+                <ShowPass encrypted_password={item.encrypted_password} />
 
 
               </div>
@@ -213,10 +209,14 @@ export default function PasswordPage() {
 
               </div>
 
+              {/* Notes */}
+              <div className="lg:col-span-2">
 
+                <p className="text-sm text-primary/80 line-clamp-3">
+                  {item.notes || "No notes"}
+                </p>
 
-
-
+              </div>
 
               {/* Actions */}
               <div className="lg:col-span-3 flex lg:justify-end gap-2">
@@ -270,6 +270,6 @@ export default function PasswordPage() {
 
       </section>
 
-    </main>
+    </main >
   );
 }

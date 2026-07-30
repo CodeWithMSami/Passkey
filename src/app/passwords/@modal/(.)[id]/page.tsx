@@ -67,6 +67,7 @@ export default async function EditPasswordModal({
 
             {/* Account */}
             <div>
+              <input type="hidden" name="id" value={password?.id} />
 
               <label className="block text-sm font-semibold text-primary mb-2">
                 Account Name

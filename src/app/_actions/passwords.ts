@@ -3,6 +3,7 @@
 import { createClient } from "@/app/_lib/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { unstable_noStore as noStore } from "next/cache";
 
 
 // Add password
@@ -130,10 +131,12 @@ export async function addPassword(
 // Update password
 
 export async function updatePassword(
-  id: string,
   formData: FormData
 ): Promise<void> {
 
+
+  const id =
+    formData.get("id") as string;
 
   const name =
     formData.get("name") as string;
@@ -346,6 +349,7 @@ export async function getPassword(
 // Get all passwords
 
 export async function getPasswords() {
+  noStore();
 
 
   const supabase = await createClient();
