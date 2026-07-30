@@ -1,0 +1,67 @@
+name: Netlify Production Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+jobs:
+
+  deploy:
+    name: Deploy to Netlify
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: 📦 Configuring Environment
+        run: |
+          echo "Status: Configuring deployment environment..."
+
+      - name: 🔄 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js
+        run: |
+          echo "Status: Installing Node.js..."
+          node -v
+
+      - name: 📥 Installing Dependencies
+        run: |
+          echo "Status: Installing dependencies..."
+          npm ci
+
+
+      - name: 🔍 Running Type Check
+        run: |
+          echo "Status: Checking TypeScript..."
+          npx tsc --noEmit
+
+
+      - name: 🔨 Building Next.js
+        run: |
+          echo "Status: Building Next.js application..."
+          npm run build
+
+
+      - name: 🚀 Deploying to Netlify
+        run: |
+          echo "Status: Deploying to Netlify..."
+          npx netlify deploy --prod --dir=.next
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+
+      - name: ✅ Production Ready
+        if: success()
+        run: |
+          echo "Status: Production"
+          echo "Deployment completed successfully 🚀"
+
+
+      - name: ❌ Deployment Failed
+        if: failure()
+        run: |
+          echo "Status: Failed"

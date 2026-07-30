@@ -1,15 +1,7 @@
+import { deletePassword, getPassword } from "@/app/_actions/passwords";
 import CancelButton from "@/app/_component/CancelSubmit";
+import DeleteBtn from "@/app/_component/DeleteBtn";
 import XSubmit from "@/app/_component/XSubmit";
-
-
-const passwords = [
-  {
-    id: "1",
-    name: "Google Account",
-  },
-];
-
-
 
 export default async function DeletePasswordModal({
   params,
@@ -23,9 +15,7 @@ export default async function DeletePasswordModal({
   const { id } = await params;
 
 
-  const password = passwords.find(
-    (item) => item.id === id
-  );
+  const password = await getPassword(id);
 
 
 
@@ -48,9 +38,9 @@ export default async function DeletePasswordModal({
             </span>
 
 
-            <h2 className="mt-4 text-3xl font-bold text-primary">
+            <button className="mt-4 text-3xl font-bold text-primary">
               Delete Password
-            </h2>
+            </button>
 
 
           </div>
@@ -126,26 +116,7 @@ export default async function DeletePasswordModal({
 
 
 
-          <button
-            type="button"
-            className="
-              flex-1
-              py-3
-              rounded-xl
-              bg-red-500
-              text-white
-              font-semibold
-              border-4
-              border-red-500
-              hover:bg-white
-              hover:text-red-500
-              cursor-pointer
-              transition-all
-              duration-300
-            "
-          >
-            Delete Password
-          </button>
+          <DeleteBtn  id={password?.id} />
 
 
         </div>
