@@ -9,16 +9,14 @@ export const metadata: Metadata = {
     "Securely manage and organize your passwords with Passkey.",
 };
 
+export default async function PasswordPage() {
 
-const passwords = await getPasswords();
+  const passwords = await getPasswords();
 
-const pass_category = new Set(
-  passwords.map((item) => item.category)
-).size;
+  const pass_category = new Set(
+    passwords.map((item) => item.category)
+  ).size;
 
-export const revalidate = 5;
-
-export default function PasswordPage() {
   return (
     <main className="py-32">
 
@@ -44,7 +42,7 @@ export default function PasswordPage() {
 
 
           <Link
-            href={"passwords/add"}
+            href={"/passwords/add"}
             className="h-fit px-6 py-3 rounded-xl bg-primary text-secondary font-semibold hover:opacity-90 transition"
           >
             + Add Password
