@@ -3,15 +3,20 @@
 import { createClient } from "@/app/_lib/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { unstable_noStore as noStore } from "next/cache";
+
+
+type ActionResponse = {
+  success: boolean;
+  message: string;
+};
+
 
 
 // Add password
 
 export async function addPassword(
   formData: FormData
-): Promise<void> {
-
+): Promise<ActionResponse> {
 
   const name =
     formData.get("name") as string;
@@ -37,11 +42,10 @@ export async function addPassword(
 
 
   if (!name || !username || !password) {
-
-    redirect(
-      "/passwords/add?error=Required fields are missing"
-    );
-
+    return {
+      success: false,
+      message: "Required fields are missing",
+    };
   }
 
 
@@ -59,11 +63,10 @@ export async function addPassword(
 
 
   if (!user) {
-
-    redirect(
-      "/login?error=Please login first"
-    );
-
+    return {
+      success: false,
+      message: "Please login first",
+    };
   }
 
 
@@ -79,7 +82,6 @@ export async function addPassword(
 
         username,
 
-        // later replace with encryption
         encrypted_password: password,
 
         category:
@@ -105,23 +107,24 @@ export async function addPassword(
 
 
   if (error) {
-
-    redirect(
-      `/passwords/add?error=${encodeURIComponent(error.message)}`
-    );
-
+    return {
+      success: false,
+      message: error.message,
+    };
   }
 
 
 
-  revalidatePath("/passwords/add");
+  revalidatePath("/passwords");
 
 
-  redirect(
-    "/passwords?success=Password added successfully"
-  );
 
+  return {
+    success: true,
+    message: "Password added successfully",
+  };
 }
+
 
 
 
@@ -132,8 +135,7 @@ export async function addPassword(
 
 export async function updatePassword(
   formData: FormData
-): Promise<void> {
-
+): Promise<ActionResponse> {
 
   const id =
     formData.get("id") as string;
@@ -162,11 +164,10 @@ export async function updatePassword(
 
 
   if (!name || !username || !password) {
-
-    redirect(
-      `/passwords/${id}/edit?error=Required fields are missing`
-    );
-
+    return {
+      success: false,
+      message: "Required fields are missing",
+    };
   }
 
 
@@ -215,11 +216,10 @@ export async function updatePassword(
 
 
   if (error) {
-
-    redirect(
-      `/passwords/${id}/edit?error=${encodeURIComponent(error.message)}`
-    );
-
+    return {
+      success: false,
+      message: error.message,
+    };
   }
 
 
@@ -227,11 +227,13 @@ export async function updatePassword(
   revalidatePath("/passwords");
 
 
-  redirect(
-    "/passwords?success=Password updated successfully"
-  );
 
+  return {
+    success: true,
+    message: "Password updated successfully",
+  };
 }
+
 
 
 
@@ -242,11 +244,9 @@ export async function updatePassword(
 
 export async function deletePassword(
   id: string
-): Promise<void> {
-
+): Promise<ActionResponse> {
 
   const supabase = await createClient();
-  console.log(id);
 
 
 
@@ -262,11 +262,10 @@ export async function deletePassword(
 
 
   if (error) {
-
-    // redirect(
-    //    `/passwords?error=${encodeURIComponent(error.message)}`
-    // );
-
+    return {
+      success: false,
+      message: error.message,
+    };
   }
 
 
@@ -274,18 +273,24 @@ export async function deletePassword(
   revalidatePath("/passwords");
 
 
-  redirect(
-    "/passwords?success=Password deleted successfully"
-  );
 
+  return {
+    success: true,
+    message: "Password deleted successfully",
+  };
 }
+
+
+
+
+
+
 
 // Get single password
 
 export async function getPassword(
   id: string
 ) {
-
 
   const supabase = await createClient();
 
@@ -301,11 +306,9 @@ export async function getPassword(
 
 
   if (!user) {
-
     redirect(
       "/login?error=Please login first"
     );
-
   }
 
 
@@ -319,23 +322,21 @@ export async function getPassword(
       .select("*")
       .eq("id", id)
       .eq("user_id", user.id)
-      .single();
+      .maybeSingle();
 
 
 
   if (error) {
-
     redirect(
       `/passwords?error=${encodeURIComponent(error.message)}`
     );
-
   }
 
 
 
   return data;
-
 }
+
 
 
 
@@ -345,8 +346,6 @@ export async function getPassword(
 // Get all passwords
 
 export async function getPasswords() {
-  noStore();
-
 
   const supabase = await createClient();
 
@@ -362,11 +361,9 @@ export async function getPasswords() {
 
 
   if (!user) {
-
     redirect(
       "/login?error=Please login first"
     );
-
   }
 
 
@@ -392,15 +389,12 @@ export async function getPasswords() {
 
 
   if (error) {
-
     redirect(
       `/passwords?error=${encodeURIComponent(error.message)}`
     );
-
   }
 
 
 
   return data;
-
 }

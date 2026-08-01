@@ -2,8 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-export default function CancelButton() {
-
+export default function CloseSubmit() {
   const router = useRouter();
 
   return (
