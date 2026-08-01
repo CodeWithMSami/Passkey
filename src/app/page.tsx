@@ -49,14 +49,14 @@ export default function Home() {
           src={LandingImage}
           alt="Passkey Hero"
           priority
-          className="hidden md:block w-full h-auto pt-12 bg-linear-to-r from-gray-300 via-white to-gray-200"
+          className="hidden md:block w-full h-auto bg-linear-to-r from-gray-300 via-white to-gray-200"
         />
 
         <Image
           src={LandingImageMobile}
           alt="Passkey Mobile"
           priority
-          className="block md:hidden w-full min-h-125 object-cover pt-14 bg-linear-to-r from-gray-300 via-white to-gray-200"
+          className="block md:hidden w-full min-h-125 object-cover bg-linear-to-r from-gray-300 via-white to-gray-200"
         />
 
         <div className="absolute inset-0 flex items-center">

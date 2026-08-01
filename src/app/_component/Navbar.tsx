@@ -32,7 +32,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 z-20 border-[6px] rounded-2xl border-primary items-center justify-between bg-linear-to-r from-gray-300 via-white to-gray-100 outline-2 outline-secondary/70'>
+      <nav className='fixed flex flex-row m-2 mx-auto min-w-[98%] max-w-[99%] py-1 px-2.5 z-20 border-[6px] rounded-2xl border-primary items-center justify-between bg-transparent outline-2 outline-secondary/70'>
         <div>
           <Image src={Passkey} alt='Passkey' width={40} height={40} />
         </div>
