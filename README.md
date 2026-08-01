@@ -1,7 +1,7 @@
 # 🔐 Passkey — Secure Password Manager
 
 <p align="center">
-  <img src="./public/icon.png" alt="Passkey Logo" width="120" />
+  <img src="./images/main.png" alt="Passkey Logo" />
 </p>
 
 <p align="center">
