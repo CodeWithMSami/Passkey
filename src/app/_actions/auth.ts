@@ -155,7 +155,7 @@ export async function forgotPassword(
   const { error } = await supabase.auth.resetPasswordForEmail(
     email,
     {
-      redirectTo:  `http://passkey-codewithmsami.netlify.app/reset-password`,
+      redirectTo:  `https://passkey-codewithmsami.netlify.app/reset-password`,
     }
   );
 
