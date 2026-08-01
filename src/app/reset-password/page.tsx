@@ -1,20 +1,7 @@
 import { resetPassword } from "../_actions/auth";
 import { SubmitButton } from "../_component/Submitbtn";
-import { createClient } from "../_lib/supabase/server";
-import { redirect } from "next/navigation";
 
 export default async function ResetPasswordPage() {
-    const supabase = await createClient();
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
-
-    // No authenticated recovery session
-    if (!user) {
-        redirect("/login");
-    }
-
     return (
         <main className="min-h-screen flex items-center justify-center">
 
