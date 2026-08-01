@@ -20,7 +20,7 @@ const Navbar = () => {
     }
 
     checkAuth();
-  }, []);
+  }, [pathname]);
 
   const showMenu = () => {
     setMenu(!menu);
