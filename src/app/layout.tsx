@@ -19,9 +19,15 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://passkey-codewithmsami.netlify.app'),
-  title: "Passkey — Secure Password Manager",
+
+  title: {
+    default: "Passkey — Secure Password Manager",
+    template: "%s | Passkey",
+  },
+
   description:
     "Store, organize, and manage all your passwords securely in one encrypted vault.",
+
   keywords: [
     "password manager",
     "password vault",
@@ -29,17 +35,77 @@ export const metadata: Metadata = {
     "password generator",
     "secure passwords",
   ],
+
   icons: {
     icon: PasskeyImg.src,
     shortcut: PasskeyImg.src,
     apple: PasskeyImg.src,
   },
-  authors: [{ name: "Passkey Team" }],
+
+  creator: "CodeWithMSami",
+
+  publisher: "Passkey",
+
+  category: "Security",
+
+  alternates: {
+    canonical: "https://passkey-codewithmsami.netlify.app",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+
+  applicationName: "Passkey",
+
+  referrer: "origin-when-cross-origin",
+
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+
+  authors: [
+    {
+      name: "Muhammad Sami Ullah",
+      url: "https://github.com/CodeWithMSami",
+    },
+  ],
+
+  verification: {
+    google:
+      "Wm8XHXhYRnTNvuMjLW0LlOIf0eCN8AhwjpLlTsyc8Wo",
+    other: {
+      "msvalidate.01":
+        "9B2709C79B48EEDCC1040BC03F4953B5",
+    },
+  },
+
+  manifest: "/manifest.webmanifest",
+
   openGraph: {
     title: "Passkey — Secure Password Manager",
+
     description:
       "Store, organize, and manage all your passwords securely in one encrypted vault.",
+
     type: "website",
+
+    url: "https://passkey-codewithmsami.netlify.app",
+
+    siteName: "Passkey",
+
+    locale: "en_US",
+
     images: [
       {
         url: PasskeyImg.src,
@@ -47,11 +113,15 @@ export const metadata: Metadata = {
       },
     ],
   },
+
   twitter: {
     card: "summary_large_image",
+
     title: "Passkey — Secure Password Manager",
+
     description:
       "Store, organize, and manage all your passwords securely in one encrypted vault.",
+
     images: [PasskeyImg.src],
   },
 };
