@@ -7,36 +7,44 @@ on:
 
   workflow_dispatch:
 
+
 jobs:
 
   deploy:
+
     name: Deploy to Netlify
+
     runs-on: ubuntu-latest
 
+
     steps:
+
 
       - name: 📦 Configuring Environment
         run: |
           echo "Status: Configuring deployment environment..."
+          echo "Branch: ${{ github.ref }}"
+          echo "Commit: ${{ github.sha }}"
+
+
 
       - name: 🔄 Checkout Code
         uses: actions/checkout@v4
 
+
+
       - name: ⚙️ Setup Node.js
-        run: |
-          echo "Status: Installing Node.js..."
-          node -v
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+
 
       - name: 📥 Installing Dependencies
         run: |
           echo "Status: Installing dependencies..."
           npm ci
-
-
-      - name: 🔍 Running Type Check
-        run: |
-          echo "Status: Checking TypeScript..."
-          npx tsc --noEmit
 
 
       - name: 🔨 Building Next.js
@@ -45,23 +53,88 @@ jobs:
           npm run build
 
 
-      - name: 🚀 Deploying to Netlify
+
+      - name: 📦 Installing Netlify CLI
         run: |
-          echo "Status: Deploying to Netlify..."
-          npx netlify deploy --prod --dir=.next
+          npm install -g netlify-cli
+
+
+
+      - name: 🚀 Deploying to Netlify
+        id: deploy
+        run: |
+
+          echo "Status: Uploading deployment..."
+
+          DEPLOY_OUTPUT=$(netlify deploy \
+            --prod \
+            --dir=.next \
+            --json)
+
+
+          echo "$DEPLOY_OUTPUT"
+
+
+          DEPLOY_ID=$(echo "$DEPLOY_OUTPUT" | jq -r '.deploy_id')
+
+
+          echo "DEPLOY_ID=$DEPLOY_ID" >> $GITHUB_OUTPUT
+
+
+          echo "Deploy ID: $DEPLOY_ID"
+
+
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
 
+
+      - name: 🔎 Checking Netlify Deployment Status
+        run: |
+
+          echo "Status: Checking Netlify..."
+
+          DEPLOY_ID=${{ steps.deploy.outputs.DEPLOY_ID }}
+
+
+          STATUS=$(curl -s \
+          -H "Authorization: Bearer ${{ secrets.NETLIFY_AUTH_TOKEN }}" \
+          https://api.netlify.com/api/v1/deploys/$DEPLOY_ID \
+          | jq -r '.state')
+
+
+          echo "Netlify Status: $STATUS"
+
+
+          if [ "$STATUS" != "ready" ]; then
+
+            echo "Deployment is not ready."
+            exit 1
+
+          fi
+
+
+          echo "Netlify deployment is live 🚀"
+
+
+
       - name: ✅ Production Ready
         if: success()
         run: |
+
+          echo "================================="
           echo "Status: Production"
           echo "Deployment completed successfully 🚀"
+          echo "================================="
+
 
 
       - name: ❌ Deployment Failed
         if: failure()
         run: |
+
+          echo "================================="
           echo "Status: Failed"
+          echo "Deployment failed ❌"
+          echo "================================="
