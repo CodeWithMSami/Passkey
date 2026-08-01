@@ -3,6 +3,7 @@
 import { createClient } from "@/app/_lib/supabase/server";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { decryptPassword, encryptPassword } from "@/app/_lib/encryption";
 
 
 type ActionResponse = {
@@ -82,7 +83,7 @@ export async function addPassword(
 
         username,
 
-        encrypted_password: password,
+        encrypted_password: encryptPassword(password),
 
         category:
           category || "Personal",
@@ -185,7 +186,7 @@ export async function updatePassword(
 
         username,
 
-        encrypted_password: password,
+        encrypted_password: encryptPassword(password),
 
         category,
 
@@ -334,7 +335,14 @@ export async function getPassword(
 
 
 
-  return data;
+  return {
+    ...data,
+
+    encrypted_password:
+      decryptPassword(
+        data.encrypted_password
+      ),
+  };
 }
 
 
@@ -396,5 +404,15 @@ export async function getPasswords() {
 
 
 
-  return data;
+  return (
+    data?.map((item) => ({
+      ...item,
+
+      encrypted_password:
+        decryptPassword(
+          item.encrypted_password
+        ),
+
+    })) ?? []
+  );
 }
