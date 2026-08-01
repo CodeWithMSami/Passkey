@@ -1,9 +1,42 @@
+"use client";
+
 import { addPassword } from "@/app/_actions/passwords";
 import CancelButton from "@/app/_component/CancelSubmit";
 import XSubmit from "@/app/_component/XSubmit";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 
 export default function AddPasswordModal() {
+
+  const router = useRouter();
+
+
+  async function handleSubmit(
+    formData: FormData
+  ) {
+
+    const result = await addPassword(formData);
+
+
+    if (result.success) {
+
+      toast.success(result.message, {
+        duration: 3000,
+      });
+
+      router.back();
+
+    } else {
+
+      toast.error(result.message, {
+        duration: 3000,
+      });
+
+    }
+
+  }
+
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-50 p-4">
@@ -46,11 +79,15 @@ export default function AddPasswordModal() {
 
         </div>
 
+
         {/* Scrollable Form */}
         <div className="overflow-y-auto">
 
 
-          <form className="p-6 md:p-8 space-y-5" action={addPassword}>
+          <form
+            className="p-6 md:p-8 space-y-5"
+            action={handleSubmit}
+          >
 
 
             {/* Account */}
@@ -71,6 +108,7 @@ export default function AddPasswordModal() {
               />
 
             </div>
+
 
             {/* Login Details */}
             <div className="grid md:grid-cols-2 gap-4">
@@ -96,8 +134,6 @@ export default function AddPasswordModal() {
               </div>
 
 
-
-
               <div>
 
                 <label className="block text-sm font-semibold text-primary mb-2">
@@ -118,9 +154,9 @@ export default function AddPasswordModal() {
 
             </div>
 
+
             {/* Password */}
             <div>
-
 
               <label className="block text-sm font-semibold text-primary mb-2">
                 Password
@@ -140,14 +176,15 @@ export default function AddPasswordModal() {
                   className="flex-1 border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary"
                 />
 
+
               </div>
 
 
             </div>
 
+
             {/* Category */}
             <div>
-
 
               <label className="block text-sm font-semibold text-primary mb-2">
                 Category
@@ -160,23 +197,23 @@ export default function AddPasswordModal() {
                 className="w-full border rounded-xl px-4 py-3 outline-none border-primary/30 focus:ring-2 focus:ring-primary/20 text-primary/50"
               >
 
-                <option value='personal'>
+                <option value="personal">
                   Personal
                 </option>
 
-                <option value='work'>
+                <option value="work">
                   Work
                 </option>
 
-                <option value='development'>
+                <option value="development">
                   Development
                 </option>
 
-                <option value='finance'>
+                <option value="finance">
                   Finance
                 </option>
 
-                <option value='social'>
+                <option value="social">
                   Social
                 </option>
 
@@ -185,9 +222,9 @@ export default function AddPasswordModal() {
 
             </div>
 
+
             {/* Tags */}
             <div>
-
 
               <label className="block text-sm font-semibold text-primary mb-2">
                 Tags
@@ -210,9 +247,9 @@ export default function AddPasswordModal() {
 
             </div>
 
+
             {/* Notes */}
             <div>
-
 
               <label className="block text-sm font-semibold text-primary mb-2">
                 Notes
@@ -242,11 +279,13 @@ export default function AddPasswordModal() {
 
             </div>
 
+
             {/* Actions */}
             <div className="flex flex-col sm:flex-row gap-3 pt-3">
 
 
               <CancelButton />
+
 
               <button
                 type="submit"

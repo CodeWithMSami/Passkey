@@ -1,4 +1,4 @@
-import { deletePassword, getPassword } from "@/app/_actions/passwords";
+import { getPassword } from "@/app/_actions/passwords";
 import CancelButton from "@/app/_component/CancelSubmit";
 import DeleteBtn from "@/app/_component/DeleteBtn";
 import XSubmit from "@/app/_component/XSubmit";
@@ -16,8 +16,6 @@ export default async function DeletePasswordModal({
 
 
   const password = await getPassword(id);
-
-
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -37,6 +35,7 @@ export default async function DeletePasswordModal({
               Danger Zone
             </span>
 
+            <br />
 
             <button className="mt-4 text-3xl font-bold text-primary">
               Delete Password
